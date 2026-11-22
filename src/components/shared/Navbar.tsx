@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, Menu } from "lucide-react";
 import Logo from "./Logo";
+import ThemeToggle from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -53,7 +54,8 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <div className="ml-auto flex items-center gap-3.5">
+        <div className="ml-auto flex items-center gap-2 md:gap-3.5">
+          <ThemeToggle />
           <div className="hidden items-center gap-[22px] lg:flex">
             <Link
               href="/login"
@@ -74,7 +76,7 @@ export default function Navbar() {
               <Button
                 variant="outline"
                 size="icon"
-                className="size-[42px] rounded-full border-subtle bg-transparent lg:hidden"
+                className="size-[42px] rounded-full border-subtle bg-transparent lg:hidden dark:bg-transparent"
                 aria-label="Open menu"
               >
                 <Menu />
@@ -108,7 +110,7 @@ export default function Navbar() {
                   <Button
                     asChild
                     variant="outline"
-                    className="h-[52px] flex-1 rounded-[2px] border-foreground bg-transparent text-xs font-semibold tracking-[0.16em] uppercase hover:bg-foreground hover:text-background"
+                    className="h-[52px] flex-1 rounded-[2px] border-foreground bg-transparent text-xs font-semibold tracking-[0.16em] uppercase hover:bg-foreground hover:text-background dark:bg-transparent dark:hover:bg-foreground"
                   >
                     <Link href="/login">Log in</Link>
                   </Button>
