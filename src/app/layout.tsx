@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 import ThemeProvider from "@/components/providers/ThemeProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const bodoni = Bodoni_Moda({
   variable: "--font-bodoni",
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Navbar />
           <div className="flex flex-1 flex-col">{children}</div>
           <Footer />
+            <Toaster position="top-center" richColors />
         </ThemeProvider>
       </body>
     </html>
