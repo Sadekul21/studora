@@ -2,6 +2,7 @@ import HeroSlider from "@/components/home/HeroSlider";
 import SearchDock from "@/components/home/SearchDock";
 import Intro from "@/components/home/Intro";
 import Categories from "@/components/home/Categories";
+import HowBooking from "@/components/home/HowBooking";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <SearchDock />
       <Intro />
       <Categories />
+      <HowBooking />
     </main>
   );
 }
