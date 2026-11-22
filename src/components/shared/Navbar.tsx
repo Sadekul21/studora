@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
+import { ArrowRight, Menu } from "lucide-react";
 import Logo from "./Logo";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
@@ -29,17 +28,17 @@ export default function Navbar() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur-md">
-      <nav className="container-page flex h-20 items-center justify-between gap-6">
+    <header className="sticky top-0 z-40 h-16 border-b bg-background/90 backdrop-blur-md lg:h-20">
+      <nav className="container-page flex h-full items-center gap-9 xl:gap-14">
         <Logo />
 
-        <ul className="hidden items-center gap-9 lg:flex">
+        <ul className="hidden h-full items-center gap-6 lg:flex xl:gap-9">
           {navLinks.map((link) => (
-            <li key={link.href}>
+            <li key={link.href} className="h-full">
               <Link
                 href={link.href}
                 className={cn(
-                  "relative py-2 text-xs font-semibold uppercase tracking-[0.16em] transition-colors hover:text-foreground",
+                  "relative flex h-full items-center text-[11.5px] font-semibold tracking-[0.17em] uppercase transition-colors hover:text-foreground",
                   isActive(link.href)
                     ? "text-foreground"
                     : "text-muted-foreground"
@@ -47,90 +46,85 @@ export default function Navbar() {
               >
                 {link.label}
                 {isActive(link.href) && (
-                  <span className="absolute -bottom-1 left-1/2 size-1.5 -translate-x-1/2 rounded-full bg-terracotta" />
+                  <span className="absolute bottom-[22px] left-1/2 size-[5px] -translate-x-1/2 rounded-full bg-terracotta" />
                 )}
               </Link>
             </li>
           ))}
         </ul>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <Button
-            asChild
-            variant="ghost"
-            className="h-11 rounded-sm px-5 text-xs font-semibold uppercase tracking-[0.16em]"
-          >
-            <Link href="/login">Log in</Link>
-          </Button>
-          <Button
-            asChild
-            className="h-11 rounded-sm px-6 text-xs font-semibold uppercase tracking-[0.16em]"
-          >
-            <Link href="/register">Register</Link>
-          </Button>
-        </div>
-
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              className="rounded-sm lg:hidden"
-              aria-label="Open menu"
+        <div className="ml-auto flex items-center gap-3.5">
+          <div className="hidden items-center gap-[22px] lg:flex">
+            <Link
+              href="/login"
+              className="border-b border-current pb-1 text-[11px] font-semibold tracking-[0.16em] uppercase"
             >
-              <Menu />
+              Log in
+            </Link>
+            <Button
+              asChild
+              className="h-10 rounded-[2px] px-4 text-[11px] font-semibold tracking-[0.16em] uppercase"
+            >
+              <Link href="/register">Register</Link>
             </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-full gap-0 sm:max-w-sm">
-            <SheetHeader className="border-b px-6 py-5">
-              <SheetTitle className="sr-only">Menu</SheetTitle>
-              <Logo />
-            </SheetHeader>
+          </div>
 
-            <ul className="flex flex-col px-6 py-4">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="size-[42px] rounded-full border-subtle bg-transparent lg:hidden"
+                aria-label="Open menu"
+              >
+                <Menu />
+              </Button>
+            </SheetTrigger>
+            <SheetContent
+              side="top"
+              className="top-16 gap-0 px-5 pt-2 pb-7 shadow-xl"
+            >
+              <SheetTitle className="border-b py-4 text-[11px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
+                Menu
+              </SheetTitle>
+
               {navLinks.map((link) => (
-                <li key={link.href} className="border-b last:border-b-0">
-                  <SheetClose asChild>
-                    <Link
-                      href={link.href}
-                      className={cn(
-                        "flex items-center justify-between py-4 font-serif text-2xl",
-                        isActive(link.href)
-                          ? "text-foreground"
-                          : "text-muted-foreground"
-                      )}
-                    >
-                      {link.label}
-                      {isActive(link.href) && (
-                        <span className="size-2 rounded-full bg-terracotta" />
-                      )}
-                    </Link>
-                  </SheetClose>
-                </li>
+                <SheetClose key={link.href} asChild>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      "flex items-center justify-between border-b py-[18px] font-serif text-[30px] leading-[1.1]",
+                      isActive(link.href) && "text-primary italic"
+                    )}
+                  >
+                    {link.label}
+                    <ArrowRight className="size-5 text-muted-foreground" />
+                  </Link>
+                </SheetClose>
               ))}
-            </ul>
 
-            <div className="mt-auto flex flex-col gap-3 border-t px-6 py-6">
-              <SheetClose asChild>
-                <Button
-                  asChild
-                  className="h-12 rounded-sm text-xs font-semibold uppercase tracking-[0.16em]"
-                >
-                  <Link href="/register">Register</Link>
-                </Button>
-              </SheetClose>
-              <SheetClose asChild>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="h-12 rounded-sm text-xs font-semibold uppercase tracking-[0.16em]"
-                >
-                  <Link href="/login">Log in</Link>
-                </Button>
-              </SheetClose>
-            </div>
-          </SheetContent>
-        </Sheet>
+              <div className="mt-6 flex gap-3">
+                <SheetClose asChild>
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="h-[52px] flex-1 rounded-[2px] border-foreground bg-transparent text-xs font-semibold tracking-[0.16em] uppercase hover:bg-foreground hover:text-background"
+                  >
+                    <Link href="/login">Log in</Link>
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button
+                    asChild
+                    className="h-[52px] flex-1 rounded-[2px] text-xs font-semibold tracking-[0.16em] uppercase"
+                  >
+                    <Link href="/register">Register</Link>
+                  </Button>
+                </SheetClose>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </nav>
     </header>
   );

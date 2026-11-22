@@ -20,12 +20,12 @@ export function ApertureMark({ className }: { className?: string }) {
       <circle
         cx="16"
         cy="16"
-        r="14"
+        r="14.2"
         fill="none"
         stroke="currentColor"
-        strokeWidth="1.6"
+        strokeWidth="1.3"
       />
-      <g stroke="currentColor" strokeWidth="1.3" strokeLinecap="round">
+      <g stroke="currentColor" strokeWidth="1.1" strokeLinecap="round">
         {blades.map(([x1, y1, x2, y2]) => (
           <line key={`${x1}-${y1}`} x1={x1} y1={y1} x2={x2} y2={y2} />
         ))}
@@ -34,14 +34,29 @@ export function ApertureMark({ className }: { className?: string }) {
   );
 }
 
-export default function Logo({ className }: { className?: string }) {
+type LogoProps = {
+  className?: string;
+  tagline?: boolean;
+};
+
+export default function Logo({ className, tagline = true }: LogoProps) {
   return (
     <Link
       href="/"
-      className={cn("flex items-center gap-2.5 text-foreground", className)}
+      className={cn(
+        "inline-flex shrink-0 items-center gap-3 text-foreground",
+        className
+      )}
     >
-      <ApertureMark className="size-8" />
-      <span className="font-serif text-2xl tracking-[0.08em]">STUDORA</span>
+      <ApertureMark className="size-[22px] md:size-[26px]" />
+      <span className="font-serif text-[17px] leading-none font-medium tracking-[0.2em] uppercase md:text-[21px] md:tracking-[0.24em]">
+        Studora
+      </span>
+      {tagline && (
+        <small className="hidden border-l border-current/30 pl-3 text-[10px] leading-none font-medium tracking-[0.2em] uppercase opacity-70 xl:inline">
+          Creative spaces
+        </small>
+      )}
     </Link>
   );
 }
