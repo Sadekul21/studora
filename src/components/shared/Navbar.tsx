@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, Menu } from "lucide-react";
@@ -24,14 +25,31 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const overHero = pathname === "/" && !scrolled;
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-40 h-16 border-b bg-background/90 backdrop-blur-md lg:h-20">
+    <header
+      className={cn(
+        "sticky top-0 z-40 h-16 border-b transition-colors duration-300 lg:h-20",
+        overHero
+          ? "border-[#f5f0e8]/20 bg-transparent text-[#f5f0e8]"
+          : "bg-background/90 backdrop-blur-md"
+      )}
+    >
       <nav className="container-page flex h-full items-center gap-9 xl:gap-14">
-        <Logo />
+        <Logo className={cn(overHero && "text-[#f5f0e8]")} />
 
         <ul className="hidden h-full items-center gap-6 lg:flex xl:gap-9">
           {navLinks.map((link) => (
@@ -39,15 +57,24 @@ export default function Navbar() {
               <Link
                 href={link.href}
                 className={cn(
-                  "relative flex h-full items-center text-[11.5px] font-semibold tracking-[0.17em] uppercase transition-colors hover:text-foreground",
-                  isActive(link.href)
-                    ? "text-foreground"
-                    : "text-muted-foreground"
+                  "relative flex h-full items-center text-[11.5px] font-semibold tracking-[0.17em] uppercase transition-colors",
+                  overHero
+                    ? isActive(link.href)
+                      ? "text-[#f5f0e8]"
+                      : "text-[#f5f0e8]/70 hover:text-[#f5f0e8]"
+                    : isActive(link.href)
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 {link.label}
                 {isActive(link.href) && (
-                  <span className="absolute bottom-[22px] left-1/2 size-[5px] -translate-x-1/2 rounded-full bg-terracotta" />
+                  <span
+                    className={cn(
+                      "absolute bottom-[22px] left-1/2 size-[5px] -translate-x-1/2 rounded-full",
+                      overHero ? "bg-[#d08a5f]" : "bg-terracotta"
+                    )}
+                  />
                 )}
               </Link>
             </li>
@@ -55,7 +82,12 @@ export default function Navbar() {
         </ul>
 
         <div className="ml-auto flex items-center gap-2 md:gap-3.5">
-          <ThemeToggle />
+          <ThemeToggle
+            className={cn(
+              overHero &&
+                "border-[#f5f0e8]/45 text-[#f5f0e8] hover:bg-[#f5f0e8]/10"
+            )}
+          />
           <div className="hidden items-center gap-[22px] lg:flex">
             <Link
               href="/login"
@@ -76,7 +108,11 @@ export default function Navbar() {
               <Button
                 variant="outline"
                 size="icon"
-                className="size-[42px] rounded-full border-subtle bg-transparent lg:hidden dark:bg-transparent"
+                className={cn(
+                  "size-[42px] rounded-full border-subtle bg-transparent lg:hidden dark:bg-transparent",
+                  overHero &&
+                    "border-[#f5f0e8]/45 text-[#f5f0e8] hover:bg-[#f5f0e8]/10 hover:text-[#f5f0e8]"
+                )}
                 aria-label="Open menu"
               >
                 <Menu />
