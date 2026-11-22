@@ -1,6 +1,7 @@
 import HeroSlider from "@/components/home/HeroSlider";
 import SearchDock from "@/components/home/SearchDock";
 import Intro from "@/components/home/Intro";
+import Categories from "@/components/home/Categories";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <HeroSlider />
       <SearchDock />
       <Intro />
+      <Categories />
     </main>
   );
 }
