@@ -28,12 +28,12 @@ export default function StudioCard({ studio }: { studio: Studio }) {
 
       <div className="flex flex-1 flex-col gap-2.5 pt-5">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-[11px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
+          <span className="min-w-0 text-[11px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
             {shortLocation(studio.location)}
             <span className="mx-2.5 inline-block size-[3px] rounded-full bg-current align-middle opacity-55" />
             Up to {studio.maxCapacity}
           </span>
-          <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold tabular-nums">
+          <span className="inline-flex shrink-0 items-center gap-1.5 text-[13px] font-semibold tabular-nums">
             <Star className="size-[13px] fill-terracotta text-terracotta" />
             {studio.rating > 0 ? studio.rating.toFixed(2) : "New"}
             {studio.reviewCount > 0 && (
