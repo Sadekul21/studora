@@ -12,6 +12,7 @@ import {
   PlusSquare,
 } from "lucide-react";
 import { signOut } from "@/lib/auth-client";
+import { apiFetch } from "@/lib/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -59,6 +60,7 @@ export function useLogout() {
   const router = useRouter();
 
   return async () => {
+    await apiFetch("/logout", { method: "POST" }).catch(() => {});
     await signOut();
     toast.success("You've been logged out.");
     router.push("/");
