@@ -34,7 +34,8 @@
   --on-night: #f5f0e8;
   --on-night-muted: #b3a796;
   --night-accent: #d08a5f;
-  
+
+    --sunken: #efe6da;
   --pending: #8c5a0a;
   --pending-bg: #f6e7c8;
   --confirmed: #3f6b3a;
@@ -71,6 +72,7 @@
   --night-soft: #1e1c19;
   --night-line: #302c27;
   
+    --sunken: #100f0d;
   --pending: #e8b970;
   --pending-bg: #33281a;
   --confirmed: #a9c79a;
@@ -114,7 +116,7 @@
   --color-on-night-muted: var(--on-night-muted);
   --color-night-accent: var(--night-accent);
  
-  
+    --color-sunken: var(--sunken);
   --color-pending: var(--pending);
   --color-pending-bg: var(--pending-bg);
   --color-confirmed: var(--confirmed);
