@@ -1,5 +1,5 @@
-const baseUrl =
-  typeof window === "undefined" ? process.env.API_URL : "/api/v1";
+const isBrowser = typeof window !== "undefined";
+const baseUrl = isBrowser ? "/api/v1" : process.env.API_URL;
 
 export class ApiError extends Error {
   status: number;
@@ -10,11 +10,8 @@ export class ApiError extends Error {
   }
 }
 
-export async function apiFetch<T = unknown>(
-  path: string,
-  options: RequestInit = {}
-): Promise<T> {
-  const res = await fetch(`${baseUrl}${path}`, {
+const request = (path: string, options: RequestInit) =>
+  fetch(`${baseUrl}${path}`, {
     ...options,
     credentials: "include",
     headers: {
@@ -22,6 +19,17 @@ export async function apiFetch<T = unknown>(
       ...options.headers,
     },
   });
+
+export async function apiFetch<T = unknown>(
+  path: string,
+  options: RequestInit = {}
+): Promise<T> {
+  let res = await request(path, options);
+
+  if (res.status === 401 && isBrowser && path !== "/jwt") {
+    const refreshed = await request("/jwt", { method: "POST" });
+    if (refreshed.ok) res = await request(path, options);
+  }
 
   const data = await res.json().catch(() => null);
 
