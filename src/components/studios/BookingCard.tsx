@@ -1,7 +1,10 @@
 "use client";
 
+import { useState } from "react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ArrowRight, ShieldCheck, Star } from "lucide-react";
+import { ArrowRight, Pencil, ShieldCheck, Star } from "lucide-react";
+import BookingModal from "@/components/bookings/BookingModal";
 import { useSession } from "@/lib/auth-client";
 import type { Studio } from "@/types/studio";
 
@@ -9,12 +12,16 @@ export default function BookingCard({ studio }: { studio: Studio }) {
   const router = useRouter();
   const pathname = usePathname();
   const { data: session } = useSession();
+  const [open, setOpen] = useState(false);
+
+  const isOwner = session?.user.email === studio.ownerEmail;
 
   const handleBook = () => {
     if (!session) {
       router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
       return;
     }
+    setOpen(true);
   };
 
   return (
@@ -51,18 +58,34 @@ export default function BookingCard({ studio }: { studio: Studio }) {
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={handleBook}
-          className="mt-4 inline-flex h-[58px] w-full items-center justify-center gap-3 rounded-[2px] bg-primary text-xs font-semibold tracking-[0.16em] text-primary-foreground uppercase transition-colors hover:bg-primary/90"
-        >
-          Book workspace now <ArrowRight className="size-[17px]" />
-        </button>
-        <p className="mt-2.5 text-center text-xs text-muted-foreground">
-          {session
-            ? "Pick a date and your hours — the host confirms the booking."
-            : "Log in to pick a date and send a booking request."}
-        </p>
+        {isOwner ? (
+          <>
+            <Link
+              href={`/studios/edit/${studio._id}`}
+              className="mt-4 inline-flex h-[58px] w-full items-center justify-center gap-3 rounded-[2px] border border-foreground text-xs font-semibold tracking-[0.16em] uppercase transition-colors hover:bg-sunken"
+            >
+              <Pencil className="size-4" /> Edit your listing
+            </Link>
+            <p className="mt-2.5 text-center text-xs text-muted-foreground">
+              This is your studio — creators book it from here.
+            </p>
+          </>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={handleBook}
+              className="mt-4 inline-flex h-[58px] w-full items-center justify-center gap-3 rounded-[2px] bg-primary text-xs font-semibold tracking-[0.16em] text-primary-foreground uppercase transition-colors hover:bg-primary/90"
+            >
+              Book workspace now <ArrowRight className="size-[17px]" />
+            </button>
+            <p className="mt-2.5 text-center text-xs text-muted-foreground">
+              {session
+                ? "Pick a date and your hours — the host confirms the booking."
+                : "Log in to pick a date and send a booking request."}
+            </p>
+          </>
+        )}
       </div>
 
       <div className="mt-4 flex gap-3 text-[13.5px] leading-[21px] text-muted-foreground">
@@ -72,6 +95,8 @@ export default function BookingCard({ studio }: { studio: Studio }) {
           The deposit is refunded after wrap if the room is left as you found it.
         </span>
       </div>
+
+      {session && !isOwner && <BookingModal studio={studio} open={open} onOpenChange={setOpen} />}
     </aside>
   );
 }
