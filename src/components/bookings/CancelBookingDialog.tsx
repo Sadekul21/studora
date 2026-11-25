@@ -63,7 +63,7 @@ export default function CancelBookingDialog({ booking, onClose, onCancelled }: C
               <div className="min-w-0">
                 <b className="block truncate text-sm font-semibold">{booking.studioTitle}</b>
                 <span className="text-[11px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-                  {shortLocation(booking.studioLocation)} · {booking.hours} hrs ·{" "}
+                  {shortLocation(booking.studioLocation)} · {booking.hours} {booking.hours === 1 ? "hr" : "hrs"} ·{" "}
                   {formatMoney(booking.totalPrice)}
                 </span>
               </div>

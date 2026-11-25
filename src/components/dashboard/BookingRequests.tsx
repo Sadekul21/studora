@@ -100,7 +100,7 @@ export default function BookingRequests({ requests, onUpdated }: BookingRequests
         </div>
       ) : (
         <>
-          <div className="hidden overflow-x-auto md:block">
+          <div className="hidden overflow-x-auto 2xl:block">
             <table className="w-full min-w-[760px] text-left text-[14.5px]">
               <thead className="border-b border-foreground text-[10.5px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
                 <tr>
@@ -134,7 +134,7 @@ export default function BookingRequests({ requests, onUpdated }: BookingRequests
                       {formatBookingDate(booking.date)}
                       <br />
                       <span className="text-muted-foreground">
-                        {booking.startTime}–{booking.endTime} · {booking.hours} hrs
+                        {booking.startTime}–{booking.endTime} · {booking.hours} {booking.hours === 1 ? "hr" : "hrs"}
                       </span>
                     </td>
                     <td className="px-[18px] py-[18px] text-sm tabular-nums">{formatMoney(booking.totalPrice)}</td>
@@ -148,7 +148,7 @@ export default function BookingRequests({ requests, onUpdated }: BookingRequests
             </table>
           </div>
 
-          <div className="divide-y md:hidden">
+          <div className="divide-y 2xl:hidden">
             {requests.map((booking) => (
               <div key={booking._id} className="px-5 py-5">
                 <div className="flex items-center gap-3">
