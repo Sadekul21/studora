@@ -1,9 +1,10 @@
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+import { auth, connectDB } from "@/lib/auth";
 
 const MAX_SIZE = 10 * 1024 * 1024;
 
 export async function POST(request: Request) {
+  await connectDB();
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
     return Response.json({ message: "Please log in to upload photos." }, { status: 401 });

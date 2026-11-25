@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { ChevronRight, Eye, Lock } from "lucide-react";
 import EditStudioForm from "@/components/studios/EditStudioForm";
-import { auth } from "@/lib/auth";
+import { auth, connectDB } from "@/lib/auth";
 import { apiFetch } from "@/lib/api";
 import type { Studio } from "@/types/studio";
 
@@ -22,6 +22,7 @@ async function getStudio(id: string) {
 
 export default async function EditStudioPage({ params }: PageProps<"/studios/edit/[id]">) {
   const { id } = await params;
+   await connectDB();
   const [studio, session] = await Promise.all([
     getStudio(id),
     auth.api.getSession({ headers: await headers() }),
